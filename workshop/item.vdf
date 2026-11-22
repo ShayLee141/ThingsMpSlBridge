@@ -1,11 +1,11 @@
 "workshopitem"
 {
-	"appid"				"2868840"
-	"publishedfileid"	"0"
+	"appid"		"2868840"
+	"publishedfileid"		"3844267432"
 	"contentfolder"		"W:/Shay/Mod/SlayTheSpire2/ThingsMpSlBridge/dist"
 	"previewfile"		"W:/Shay/Mod/SlayTheSpire2/ThingsMpSlBridge/workshop/preview.png"
-	"visibility"		"2"
-	"title"				"ThingsMpSlBridge - STS2_Things × 快速SL 兼容补丁"
+	"visibility"		"0"
+	"title"		"ThingsMpSlBridge - STS2_Things × 快速SL 兼容补丁"
 	"description"		"修复：多人局同时使用「尖塔：琐事 STS2_Things」和「多功能快速SL QuickSlAndRerollStart」时，快速SL 回档会让客户端掉线、整队加载崩溃的问题。 | 原因：快速SL 重建联机会话时会调用 RunManager.CleanUp(true)，STS2_Things 在该方法的 Prefix 里执行 MultiplayerConfig.Clear()，把房主锁定的配置快照清掉；重建后客户端只重新注册了消息处理器，拿不回快照，于是 PrepareRun 判定「No final host configuration was received before run start」并 Disconnect(ModMismatch)，随后 MpSL 加载抛 NullReferenceException 拖垮整局。 | 本补丁在 RunManager.CleanUp 之前把已锁定的快照存下来，并在会话重建后、STS2_Things 校验配置之前写回去。不改动原 Mod，也不放宽任何配置校验；房主侧完全不干预。 | 前置：STS2_Things (>= 2.0.7)、QuickSlAndRerollStart。多人联机时所有客户端都必须安装本补丁（affects_gameplay = true，缺装或版本不一致会在握手阶段被拦下）。"
 	"changenote"		"0.1.2 首次发布"
 }
