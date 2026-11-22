@@ -1,0 +1,12 @@
+{
+  "id": "ThingsMpSlBridge",
+  "pck_name": "ThingsMpSlBridge",
+  "name": "ThingsMpSlBridge",
+  "version": "0.1.0",
+  "author": "Shay",
+  "description": "Keeps the STS2_Things locked host config snapshot alive across QuickSL multiplayer session rebuilds.",
+  "dependencies": [],
+  "has_pck": false,
+  "has_dll": true,
+  "affects_gameplay": false
+}
