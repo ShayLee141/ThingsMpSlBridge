@@ -1,5 +1,9 @@
 # ThingsMpSlBridge
 
+**尖塔琐事 × 快速SL · 兼容补丁**
+
+[Steam 创意工坊](https://steamcommunity.com/sharedfiles/filedetails/?id=3844267432) · [前置：尖塔：琐事 STS2_Things](https://steamcommunity.com/sharedfiles/filedetails/?id=3747607944) · [前置：多功能快速SL QuickSlAndRerollStart](https://steamcommunity.com/sharedfiles/filedetails/?id=3747626826)
+
 兼容补丁 Mod：让 `STS2_Things`（尖塔：琐事）和 `QuickSlAndRerollStart`（多功能快速SL）在多人局里能同时用。
 
 ## 解决什么
