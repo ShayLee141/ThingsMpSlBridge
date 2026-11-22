@@ -15,6 +15,19 @@
 
 不改动这两个 Mod，也不放宽校验：恢复的是本局之前由房主下发并通过校验的那份快照；房主之后发来的更高 revision 仍会正常覆盖，锁定后改配置依旧会被拒绝。
 
+## 依赖
+
+清单里声明了两个前置（游戏加载时强制检查，缺一个本 Mod 就不会加载，并在 Mod 界面报错）：
+
+```json
+"dependencies": [
+  { "id": "STS2_Things", "min_version": "2.0.7" },
+  { "id": "QuickSlAndRerollStart" }
+]
+```
+
+`STS2_Things` 锁 2.0.7：本补丁靠反射读写 `MultiplayerConfig` 的私有字段，字段布局是 2.0.7 反编译确认过的。`QuickSlAndRerollStart` 只要求存在 —— 它自己报的版本是 `v0.0.0`，写 `min_version` 没有意义。
+
 ## 装到哪
 
 ```text
@@ -23,7 +36,7 @@ F:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\ThingsMpSlBridge\
 └─ ThingsMpSlBridge.json
 ```
 
-清单里 `affects_gameplay: false`，装与不装都不会阻止别人进房。这个补丁只需要**客户端**装；房主装了也不会改变行为（房主分支直接跳过）。
+清单里 `affects_gameplay: false`，装与不装都不会阻止别人进房；但**前置没装齐的话本 Mod 直接不加载**。这个补丁只需要**客户端**装；房主装了也不会改变行为（房主分支直接跳过）。
 
 ## 构建
 
