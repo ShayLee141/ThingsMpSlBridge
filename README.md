@@ -36,7 +36,9 @@ F:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\ThingsMpSlBridge\
 └─ ThingsMpSlBridge.json
 ```
 
-清单里 `affects_gameplay: false`，装与不装都不会阻止别人进房；但**前置没装齐的话本 Mod 直接不加载**。这个补丁只需要**客户端**装；房主装了也不会改变行为（房主分支直接跳过）。
+清单里 `affects_gameplay: true`：本 Mod 会进入玩法相关 mod 列表，握手时不装或版本不同都会被直接拒掉（`ModMismatch`），不会再出现“先能进房、回档才崩”。代价是每次更新必须全员同步到同一版本。
+
+前置没装齐的话本 Mod 直接不加载。这个补丁只需要**客户端**装；房主装了也不会改变行为（房主分支直接跳过）。
 
 ## 构建
 

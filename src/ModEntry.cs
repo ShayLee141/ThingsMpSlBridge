@@ -9,7 +9,7 @@ namespace ThingsMpSlBridge;
 public static class ModEntry
 {
     public const string ModId = "ThingsMpSlBridge";
-    public const string ThisVersion = "0.1.1";
+    public const string ThisVersion = "0.1.2";
 
     public static Harmony? HarmonyInstance { get; private set; }
 
