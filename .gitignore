@@ -4,3 +4,4 @@ build/
 *.user
 *.DotSettings.user
 *.suo
+dist/
