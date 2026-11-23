@@ -32,7 +32,7 @@ $null = New-Item -ItemType Directory -Force -Path $ContentDir
 Copy-Item -Force $Dll (Join-Path $ContentDir 'ThingsMpSlBridge.dll')
 Copy-Item -Force $Manifest $ContentDir
 
-$vdf = Get-Content $Template -Raw
+$vdf = [System.IO.File]::ReadAllText($Template, [System.Text.Encoding]::UTF8)
 $vdf = $vdf.Replace('{{CONTENT_FOLDER}}', ($ContentDir -replace '\\', '/'))
 $vdf = $vdf.Replace('{{PREVIEW_FILE}}', ($PreviewFile -replace '\\', '/'))
 
