@@ -34,11 +34,21 @@
 
 ## 装到哪
 
+把整个 `ThingsMpSlBridge` 文件夹放到你的游戏装目录下的 `mods\` 里（没有 `mods` 就自己建一个）：
+
 ```text
-F:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\ThingsMpSlBridge\
+<游戏安装目录>\mods\ThingsMpSlBridge\
 ├─ ThingsMpSlBridge.dll
 └─ ThingsMpSlBridge.json
 ```
+
+`<游戏安装目录>` 就是含 `SlayTheSpire2.exe` 的那一层，典型位置：
+
+```text
+<Steam 库>\steamapps\common\Slay the Spire 2\
+```
+
+默认库里就是 `C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2`，装在其它盘时换掉前面的库路径就行。
 
 清单里 `affects_gameplay: true`：本 Mod 会进入玩法相关 mod 列表，握手时不装或版本不同都会被直接拒掉（`ModMismatch`），不会再出现“先能进房、回档才崩”。代价是每次更新必须全员同步到同一版本。
 
@@ -46,11 +56,37 @@ F:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\ThingsMpSlBridge\
 
 ## 构建
 
+需要 .NET 9 SDK。游戏 DLL 的位置不写死在仓库里，按下面任一方式告诉构建：
+
 ```powershell
+# 方式 1：本地配置文件（推荐，文件不入库）
+Copy-Item local.props.example local.props
+#   然后把 local.props 里的 Sts2GameDir 改成本机游戏目录
+
+# 方式 2：命令行参数
+pwsh ./tools/build.ps1 -GameDir "D:\SteamLibrary\steamapps\common\Slay the Spire 2"
+
+# 方式 3：环境变量
+$env:STS2_GAME_DIR = "D:\SteamLibrary\steamapps\common\Slay the Spire 2"
 pwsh ./tools/build.ps1
 ```
 
-`dotnet build` 通过后用 `tools/build.ps1` 复制到游戏 mods 目录。需要游戏 DLL 在 `F:\SteamLibrary\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64\`（见 `ThingsMpSlBridge.csproj` 的 `HintPath`）。
+不传任何参数时，`build.ps1` 会依次尝试：`-GameDir` → `STS2_GAME_DIR` → `local.props` → 从 Steam 的 `libraryfolders.vdf` 自动找出含 `SlayTheSpire2.exe` 的目录。
+
+脚本会先 `dotnet build`，再把生成的 DLL 和清单拷到 `<游戏目录>\mods\ThingsMpSlBridge\`。
+
+## 发布到创意工坊
+
+```powershell
+pwsh ./tools/publish-workshop.ps1 -SteamUser <你的 Steam 账号>
+```
+
+- 内容的来源是 `dist\`（先自己把 `ThingsMpSlBridge.dll` + `.json` 拷进去），预览图是 `workshop\preview.png`。
+- `workshop\item.vdf` 是脚本根据 `workshop\item.vdf.template` 生成的，**不入库**；模板里只放标题/简介/变更说明，路径由脚本填。
+- steamcmd 路径默认依次找 `-SteamCmd` → `STEAMCMD` 环境变量 → `PATH` → `C:\steamcmd\steamcmd.exe`；账号也可以用 `STEAM_USER` 环境变量给。
+- 首次要先在 steamcmd 里登录过一次（需要 Steam Guard），之后凭据会缓存。
+- `-DryRun` 只生成 `item.vdf` 并打印路径，不实际上传。
+- 物品处于自动内容检查期间时，标题/简介的修改会被 `Access Denied` 拒绝，等检查放行再传。
 
 ## 日志
 

@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- 指向 Slay the Spire 2 的安装目录（含 SlayTheSpire2.exe 的那一层） -->
+    <Sts2GameDir>这里填游戏安装目录，例如 D:\SteamLibrary\steamapps\common\Slay the Spire 2</Sts2GameDir>
+  </PropertyGroup>
+</Project>

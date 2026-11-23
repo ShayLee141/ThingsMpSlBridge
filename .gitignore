@@ -5,3 +5,5 @@ build/
 *.DotSettings.user
 *.suo
 dist/
+local.props
+workshop/item.vdf

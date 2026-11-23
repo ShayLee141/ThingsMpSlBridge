@@ -1,0 +1,11 @@
+"workshopitem"
+{
+	"appid"				"2868840"
+	"publishedfileid"	"3844267432"
+	"contentfolder"		"{{CONTENT_FOLDER}}"
+	"previewfile"		"{{PREVIEW_FILE}}"
+	"visibility"		"0"
+	"title"				"尖塔琐事 × 快速SL · 兼容补丁"
+	"description"		"[h1]尖塔琐事 × 快速SL · 兼容补丁[/h1][h3]这是什么[/h3]一个修复补丁，专治这两个 Mod 在多人局里同时开启时的冲突：[list][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3747607944]尖塔：琐事（STS2_Things）[/url][*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3747626826]多功能快速SL（Better Menu / QuickSlAndRerollStart）[/url][/list][h3]你会碰到的问题[/h3]两个人以上开房，打到一半有人用快速 SL 回档，客户端会在读档那一瞬间掉线，接着整队一起崩。房主端看到的是 ModMismatch，其他人看到的是「连接的对方关闭了连接」。[h3]为什么会这样[/h3]快速 SL 回档要把联机会话拆掉重建。重建前游戏会清理当前对局，而尖塔琐事在清理时顺手把「房主锁定的配置快照」也清掉了；重建之后客户端只重新注册了通信，没拿回那份配置，于是开局校验时判定「没收到房主配置」，主动断开。这不怪任何一个 Mod 单独使用，只有两个一起开才会踩到。[h3]这个补丁做了什么[/h3]清理之前，先把那份已经锁定的配置快照存一份；等会话重建完、尖塔琐事开始校验之前，再把它放回去。原 Mod 一个字节都不改，配置校验也没放松 —— 房主锁定后再改配置，照样会被拒绝。[h3]安装[/h3][list][*]先装好上面两个 Mod（尖塔琐事需要 2.0.7 或更高）[*]再装本补丁[*]多人联机时每个客户端都要装，而且版本必须一致，否则进房时会被直接拦下[/list][h3]注意[/h3]这里的「快速SL」指的是多功能快速SL（Better Menu），不是另一个单人的 QuickSL，两者不是同一个 Mod。[h3]其他[/h3]源码与问题反馈：[url=https://github.com/ShayLee141/ThingsMpSlBridge]GitHub[/url]"
+	"changenote"		"0.1.2 首个版本：保留尖塔琐事的房主配置快照，修复快速SL 回档导致整队掉线"
+}
