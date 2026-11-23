@@ -65,4 +65,10 @@ $null = New-Item -ItemType Directory -Force -Path $GameModsDir
 Copy-Item -Force $DllSource (Join-Path $GameModsDir 'ThingsMpSlBridge.dll')
 Copy-Item -Force (Join-Path $ProjectDir 'ThingsMpSlBridge.json') $GameModsDir
 
+# Keep dist/ (workshop upload source) in sync with the build
+$DistDir = Join-Path $ProjectDir 'dist'
+$null = New-Item -ItemType Directory -Force -Path $DistDir
+Copy-Item -Force $DllSource (Join-Path $DistDir 'ThingsMpSlBridge.dll')
+Copy-Item -Force (Join-Path $ProjectDir 'ThingsMpSlBridge.json') $DistDir
+
 Write-Host "Done! Restart the game to reload." -ForegroundColor Green
