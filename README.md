@@ -56,7 +56,7 @@
 
 ## 构建
 
-需要 .NET 9 SDK。游戏 DLL 的位置不写死在仓库里，按下面任一方式告诉构建：
+需要 .NET 9 SDK，以及游戏目录（用来引用 `sts2.dll` 和 `0Harmony.dll`）。游戏目录不写死在仓库里，按下面任一方式提供：
 
 ```powershell
 # 方式 1：本地配置文件（推荐，文件不入库）
@@ -64,16 +64,14 @@ Copy-Item local.props.example local.props
 #   然后把 local.props 里的 Sts2GameDir 改成本机游戏目录
 
 # 方式 2：命令行参数
-pwsh ./tools/build.ps1 -GameDir "D:\SteamLibrary\steamapps\common\Slay the Spire 2"
+dotnet build -p:Sts2GameDir="D:\SteamLibrary\steamapps\common\Slay the Spire 2"
 
 # 方式 3：环境变量
 $env:STS2_GAME_DIR = "D:\SteamLibrary\steamapps\common\Slay the Spire 2"
-pwsh ./tools/build.ps1
+dotnet build
 ```
 
-不传任何参数时，`build.ps1` 会依次尝试：`-GameDir` → `STS2_GAME_DIR` → `local.props` → 从 Steam 的 `libraryfolders.vdf` 自动找出含 `SlayTheSpire2.exe` 的目录。
-
-脚本会先 `dotnet build`，再把生成的 DLL 和清单拷到 `<游戏目录>\mods\ThingsMpSlBridge\`。
+产物：`.godot/mono/temp/bin/Debug/ThingsMpSlBridge.dll`，与仓库根目录的 `ThingsMpSlBridge.json` 一起就是发布用的两个文件。
 
 ## 发布到创意工坊
 
@@ -81,11 +79,11 @@ pwsh ./tools/build.ps1
 pwsh ./tools/publish-workshop.ps1 -SteamUser <你的 Steam 账号>
 ```
 
-- 内容的来源是 `dist\`（先自己把 `ThingsMpSlBridge.dll` + `.json` 拷进去），预览图是 `workshop\preview.png`。
-- `workshop\item.vdf` 是脚本根据 `workshop\item.vdf.template` 生成的，**不入库**；模板里只放标题/简介/变更说明，路径由脚本填。
+脚本会：把构建产物和清单拷到 `dist\` → 用 `workshop\item.vdf.template` 渲染出 `item.vdf` → 调 steamcmd 上传。
+
 - steamcmd 路径默认依次找 `-SteamCmd` → `STEAMCMD` 环境变量 → `PATH` → `C:\steamcmd\steamcmd.exe`；账号也可以用 `STEAM_USER` 环境变量给。
 - 首次要先在 steamcmd 里登录过一次（需要 Steam Guard），之后凭据会缓存。
-- `-DryRun` 只生成 `item.vdf` 并打印路径，不实际上传。
+- `-DryRun` 只暂存 `dist\` 并渲染 `item.vdf`，不实际上传；`-Configuration Release` 可换构建配置。
 - 物品处于自动内容检查期间时，标题/简介的修改会被 `Access Denied` 拒绝，等检查放行再传。
 
 ## 日志
